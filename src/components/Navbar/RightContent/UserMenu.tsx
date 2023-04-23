@@ -7,8 +7,8 @@ import { CgProfile } from 'react-icons/cg';
 import { VscAccount } from 'react-icons/vsc';
 import { IoSparkles } from 'react-icons/io5';
 import { MdOutlineLogout } from 'react-icons/md';
-import { auth } from '../../firebase/clientApp';
-import { authModalState } from '../../atoms/authModalAtom';
+import { auth } from '../../../firebase/clientApp';
+import { authModalState } from '../../../atoms/authModalAtom';
 import { useSetRecoilState } from 'recoil';
 
 type UserMenuProps = {

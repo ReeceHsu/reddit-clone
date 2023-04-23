@@ -1,8 +1,8 @@
 import { Flex, Button } from '@chakra-ui/react';
 import { User, signOut } from 'firebase/auth';
 import AuthButtons from './AuthButtons';
-import AuthModal from '../Modal/Auth/AuthModal';
-import { auth } from '../../firebase/clientApp';
+import AuthModal from '../../Modal/Auth/AuthModal';
+import { auth } from '../../../firebase/clientApp';
 import Icons from './Icons';
 import UserMenu from './UserMenu';
 
