@@ -49,7 +49,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
 								setEmail(event.target.value);
 							}}
 						/>
-						<Button width='100%' height='36px' mt={2} mb={2}>
+						<Button width='100%' height='36px' mt={2} mb={2} type='submit'>
 							Reset Password
 						</Button>
 					</form>
