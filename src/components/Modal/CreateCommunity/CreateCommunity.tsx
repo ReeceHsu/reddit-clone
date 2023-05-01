@@ -20,7 +20,7 @@ import React, { useState } from 'react';
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs';
 import { HiLockClosed } from 'react-icons/hi';
 import { auth, firestore } from '../../../firebase/clientApp';
-import { doc, getDoc, runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, runTransaction, serverTimestamp } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type CreateCommunityProps = {
