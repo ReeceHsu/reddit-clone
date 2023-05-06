@@ -1,19 +1,27 @@
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Flex, Icon, Input } from '@chakra-ui/react';
 import { FaReddit } from 'react-icons/fa';
 import { IoImageOutline } from 'react-icons/io5';
 import { BsLink45Deg } from 'react-icons/bs';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../firebase/clientApp';
+import { useSetRecoilState } from 'recoil';
+import { authModalState } from '../../atoms/authModalAtom';
 
 const CreatePostLink: React.FC = () => {
 	const router = useRouter();
+	const [user] = useAuthState(auth);
+	const setAuthModalState = useSetRecoilState(authModalState);
+
 	const onClick = () => {
-		const { community } = router.query;
-		if (community) {
-			router.push(`/r/${router.query.community}/submit`);
+		if (!user) {
+			setAuthModalState({ open: true, view: 'login' });
 			return;
 		}
+
+		const { communityId } = router.query;
+		router.push(`/r/${communityId}/submit`);
 	};
 	return (
 		<Flex
