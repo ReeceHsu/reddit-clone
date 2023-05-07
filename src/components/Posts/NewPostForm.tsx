@@ -88,14 +88,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
 					imageURL: downloadURL,
 				});
 			}
+
+			router.back();
 		} catch (error) {
 			console.log('handleCreatePost error', error);
 			setError(true);
 		}
 		setLoading(false);
-
-		// redirect the user back to the communityPage using the router
-		router.back();
 	};
 
 	const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
