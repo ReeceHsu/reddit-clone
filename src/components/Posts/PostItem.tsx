@@ -18,7 +18,7 @@ type PostItemProps = {
 	post: Post;
 	userIsCreator: boolean;
 	userVoteValue?: number;
-	onVote: () => {};
+	onVote: (event: React.MouseEvent<SVGElement, MouseEvent>, post: Post, vote: number, communityId: string) => void;
 	onDeletePost: (post: Post) => Promise<boolean>;
 	onSelectPost: () => void;
 };
@@ -57,22 +57,21 @@ const PostItem: React.FC<PostItemProps> = ({
 			bg='white'
 			borderColor='gray.300'
 			_hover={{ borderColor: 'gray.500' }}
-			cursor='pointer'
 			onClick={onSelectPost}>
 			<Flex direction={'column'} align={'center'} bg='gray.100' p={2} width='40px' borderRadius={4}>
 				<Icon
 					as={userVoteValue === 1 ? IoArrowUpCircleSharp : IoArrowUpCircleOutline}
 					color={userVoteValue === 1 ? 'brand.100' : 'gray.400'}
 					fontSize={22}
-					onClick={onVote}
+					onClick={e => onVote(e, post, 1, post.communityId)}
 					cursor={'pointer'}
 				/>
 				<Text fontSize='9pt'>{post.voteStatus}</Text>
 				<Icon
 					as={userVoteValue === -1 ? IoArrowDownCircleSharp : IoArrowDownCircleOutline}
-					color={userVoteValue === 1 ? '#4379ff' : 'gray.400'}
+					color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
 					fontSize={22}
-					onClick={onVote}
+					onClick={e => onVote(e, post, -1, post.communityId)}
 					cursor={'pointer'}
 				/>
 			</Flex>
