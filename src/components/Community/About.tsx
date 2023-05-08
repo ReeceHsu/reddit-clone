@@ -4,7 +4,6 @@ import { Box, Flex, Text, Icon, Stack, Divider, Link, Button, Image, Spinner } f
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import dayjs from 'dayjs';
 import { CgMenuCake } from 'react-icons/cg';
-import { useRouter } from 'next/router';
 import { auth, storage, firestore } from '../../firebase/clientApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import useSelectFile from '../../hooks/useSelectFile';
@@ -18,7 +17,6 @@ type AboutProps = {
 };
 
 const About: React.FC<AboutProps> = ({ communityData }) => {
-	const router = useRouter();
 	const [user] = useAuthState(auth);
 	const selectFileREf = useRef<HTMLInputElement>(null);
 	const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
@@ -69,7 +67,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
 							<Text>Created {dayjs(new Date(communityData.createdAt.seconds * 1000)).format('MMMM DD, YYYY')}</Text>
 						)}
 					</Flex>
-					<Link href={`/r/${router.query.communityId}/submit`}>
+					<Link href={`/r/${communityData.id}/submit`}>
 						<Button width='100%' mt={3} height='30px'>
 							Create Post
 						</Button>
