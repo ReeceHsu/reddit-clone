@@ -53,7 +53,7 @@ const useCommunityData = () => {
 
 			batch.set(doc(firestore, `users/${user?.uid}/communitySnippets/${communityData.id}`), newSnippet);
 			batch.update(doc(firestore, 'communities', communityData.id), {
-				numberOfMember: increment(1),
+				numberOfMembers: increment(1),
 			});
 			await batch.commit();
 
@@ -76,7 +76,7 @@ const useCommunityData = () => {
 			batch.delete(doc(firestore, `users/${user?.uid}/communitySnippets`, communityId));
 
 			batch.update(doc(firestore, 'communities', communityId), {
-				numberOfMember: increment(-1),
+				numberOfMembers: increment(-1),
 			});
 
 			await batch.commit();
