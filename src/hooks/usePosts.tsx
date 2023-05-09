@@ -7,9 +7,11 @@ import { collection, deleteDoc, doc, query, where, writeBatch, getDocs } from 'f
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { authModalState } from '../atoms/authModalAtom';
 import { communityState } from '../atoms/communities';
+import { useRouter } from 'next/router';
 
 const usePosts = () => {
 	const [user] = useAuthState(auth);
+	const router = useRouter();
 	const [postStateValue, setPostStateValue] = useRecoilState(postState);
 	const setAuthModalState = useSetRecoilState(authModalState);
 	const currentCommunity = useRecoilValue(communityState).currentCommunity;
@@ -82,6 +84,10 @@ const usePosts = () => {
 				postVotes: updatedPostVotes,
 			}));
 
+			if (postStateValue.selectedPost) {
+
+			}
+
 			// update post doc
 			const postRef = doc(firestore, 'posts', post.id!);
 			batch.update(postRef, { voteStatus: voteStatus + voteChange });
@@ -92,7 +98,13 @@ const usePosts = () => {
 		}
 	};
 
-	const onSelectPost = () => {};
+	const onSelectPost = (post: Post) => {
+		setPostStateValue(prev => ({
+			...prev,
+			selectedPost: post,
+		}));
+		router.push(`/r/${post.communityId}/comments/${post.id}`);
+	};
 
 	const onDeletePost = async (post: Post): Promise<boolean> => {
 		try {
