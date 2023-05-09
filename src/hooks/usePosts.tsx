@@ -1,14 +1,18 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Post, postState, PostVote } from '../atoms/post';
 import { deleteObject, ref } from 'firebase/storage';
 import { auth, firestore, storage } from '../firebase/clientApp';
-import { collection, deleteDoc, doc, writeBatch } from 'firebase/firestore';
+import { collection, deleteDoc, doc, query, where, writeBatch, getDocs } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { authModalState } from '../atoms/authModalAtom';
+import { communityState } from '../atoms/communities';
 
 const usePosts = () => {
 	const [user] = useAuthState(auth);
 	const [postStateValue, setPostStateValue] = useRecoilState(postState);
+	const setAuthModalState = useSetRecoilState(authModalState);
+	const currentCommunity = useRecoilValue(communityState).currentCommunity;
 
 	const onVote = async (
 		event: React.MouseEvent<SVGElement, MouseEvent>,
@@ -112,9 +116,29 @@ const usePosts = () => {
 		}
 	};
 
-	return { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost };
+	const getCommunityPostVote = async (communityId: string) => {
+		const postVotesQuery = query(
+			collection(firestore, 'users', `${user?.uid}/postVotes`),
+			where('communityId', '==', communityId),
+		);
+
+		const postVotesDoc = await getDocs(postVotesQuery);
+		const postVotes = postVotesDoc.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+		setPostStateValue(prev => ({ ...prev, postVotes: postVotes as PostVote[] }));
+	};
+
+	useEffect(() => {
+		if (!user || !currentCommunity?.id) return;
+		getCommunityPostVote(currentCommunity?.id);
+	}, [currentCommunity]);
+
+	useEffect(() => {
+		if (!user) {
+			// clear user post votes
+			setPostStateValue(prev => ({ ...prev, postVotes: [] }));
+		}
+	}, [user]);
+
+	return { postStateValue, setPostStateValue, onVote, onDeletePost, onSelectPost, getCommunityPostVote };
 };
 export default usePosts;
-function setAuthModalState(arg0: { open: boolean; view: string }) {
-	throw new Error('Function not implemented.');
-}
