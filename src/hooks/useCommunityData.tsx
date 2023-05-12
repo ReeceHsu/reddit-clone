@@ -38,6 +38,7 @@ const useCommunityData = () => {
 			setCommunityStateValue(prev => ({
 				...prev,
 				mySnippets: snippets as CommunitySnippet[],
+				snippetsFetched: true,
 			}));
 		} catch (error) {
 			console.log('getMySnippets error', error);
@@ -52,6 +53,7 @@ const useCommunityData = () => {
 			const newSnippet: CommunitySnippet = {
 				communityId: communityData.id,
 				imageURL: communityData.imageURL || '',
+				isModerator: user?.uid === communityData.creatorId,
 			};
 
 			batch.set(doc(firestore, `users/${user?.uid}/communitySnippets/${communityData.id}`), newSnippet);
@@ -111,7 +113,14 @@ const useCommunityData = () => {
 	};
 
 	useEffect(() => {
-		if (!user) return;
+		if (!user) {
+			setCommunityStateValue(prev => ({
+				...prev,
+				mySnippets: [],
+				snippetsFetched: false,
+			}));
+			return
+		}
 		getMySnippets();
 	}, [user]);
 

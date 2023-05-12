@@ -22,6 +22,8 @@ import { HiLockClosed } from 'react-icons/hi';
 import { auth, firestore } from '../../../firebase/clientApp';
 import { doc, runTransaction, serverTimestamp } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import useDirectory from '../../../hooks/useDirectory';
+import { useRouter } from 'next/router';
 
 type CreateCommunityProps = {
 	open: boolean;
@@ -35,6 +37,8 @@ const CreateCommunity: React.FC<CreateCommunityProps> = ({ open, handleClose }) 
 	const [communityType, setCommunityType] = useState('public');
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
+	const { toggleMenuOpen } = useDirectory();
+	const router = useRouter();
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.value.length > 21) return;
@@ -81,6 +85,9 @@ const CreateCommunity: React.FC<CreateCommunityProps> = ({ open, handleClose }) 
 					isModerator: true,
 				});
 			});
+			router.push(`/r/${communityName}`);
+			handleClose();
+			toggleMenuOpen();
 		} catch (error: any) {
 			console.log('handleCreateCommunity err', error);
 			setError(error.message);

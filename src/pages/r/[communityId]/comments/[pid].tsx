@@ -52,7 +52,7 @@ const PostPage: React.FC = () => {
 						userIsCreator={user?.uid === postStateValue.selectedPost?.creatorId}
 					/>
 				)}
-				<Comments user={user as User} selectedPost={postStateValue.selectedPost} communityId={postStateValue.selectedPost?.communityId as String} />
+				<Comments user={user as User} selectedPost={postStateValue.selectedPost} communityId={postStateValue.selectedPost?.communityId as string} />
 			</>
 			<>{communityStateValue.currentCommunity && <About communityData={communityStateValue.currentCommunity} />}</>
 		</PageContent>

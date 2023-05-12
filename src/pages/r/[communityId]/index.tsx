@@ -21,7 +21,7 @@ const CommmunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 
 	useEffect(() => {
 		setCommunityStateValue(prev => ({ ...prev, currentCommunity: communityData }));
-	}, []);
+	}, [communityData]);
 
 	if (!communityData) return <NotFound />;
 	return (
