@@ -8,7 +8,7 @@ import { collection, getDocs, limit, orderBy, where } from 'firebase/firestore';
 import usePosts from '../hooks/usePosts';
 import { useRecoilValue } from 'recoil';
 import { communityState } from '../atoms/communities';
-import { Post } from '../atoms/post';
+import { Post, PostVote } from '../atoms/post';
 import PostLoader from '../components/Posts/PostLoader';
 import { Stack } from '@chakra-ui/react';
 import PostItem from '../components/Posts/PostItem';
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
 	const [user, loadingUser] = useAuthState(auth);
 	const [loading, setLoading] = useState(false);
 	const { postStateValue, setPostStateValue, onSelectPost, onDeletePost, onVote } = usePosts();
-	const  { communityStateValue } = useCommunityData()
+	const { communityStateValue } = useCommunityData();
 
 	const buildUserHomeFeed = async () => {
 		setLoading(true);
@@ -67,7 +67,21 @@ const Home: NextPage = () => {
 		setLoading(false);
 	};
 
-	const getUserPostVotes = () => {};
+	const getUserPostVotes = async () => {
+		try {
+			const postIds = postStateValue.posts.map(post => post.id);
+			const postVoteQuery = query(
+				collection(firestore, `users/${user?.uid}/postVotes`),
+				where('postId', 'in', postIds),
+			);
+			const postVoteDocs = await getDocs(postVoteQuery);
+			const postVotes = postVoteDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+			setPostStateValue(prev => ({ ...prev, postVotes: postVotes as PostVote[] }));
+		} catch (error: any) {
+			console.log('getUserPostVotes error', error.message);
+		}
+	};
 
 	useEffect(() => {
 		if (communityStateValue.snippetsFetched) {
@@ -79,6 +93,14 @@ const Home: NextPage = () => {
 	useEffect(() => {
 		if (!user && !loadingUser) buildNoUserHomeFeed();
 	}, [user, loadingUser]);
+
+	useEffect(() => {
+		if (user && postStateValue.posts.length) getUserPostVotes();
+
+		return () => {
+			setPostStateValue(prev => ({ ...prev, postVotes: [] }));
+		};
+	}, [user, postStateValue.posts]);
 	return (
 		<PageContent>
 			<>
