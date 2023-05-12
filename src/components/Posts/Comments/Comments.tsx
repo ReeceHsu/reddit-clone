@@ -15,7 +15,7 @@ import {
 	writeBatch,
 } from 'firebase/firestore';
 import { firestore } from '../../../firebase/clientApp';
-import { Timestamp } from '@google-cloud/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { useSetRecoilState } from 'recoil';
 import CommentItem from './CommentItem';
 
