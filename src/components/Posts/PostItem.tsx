@@ -16,7 +16,6 @@ import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import { FaReddit } from 'react-icons/fa';
 import Link from 'next/link';
-dayjs.extend(require('dayjs/plugin/relativeTime'));
 
 type PostItemProps = {
 	post: Post;

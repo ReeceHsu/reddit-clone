@@ -2,9 +2,8 @@ import { Box, Flex, Icon, Stack, Text, Spinner } from '@chakra-ui/react';
 import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { FaReddit } from 'react-icons/fa';
-import dayjs from 'dayjs';
 import { IoArrowDownCircleOutline, IoArrowUpCircleOutline } from 'react-icons/io5';
-dayjs.extend(require('dayjs/plugin/relativeTime'));
+import dayjs from 'dayjs';
 
 export type Comment = {
 	id: string;
