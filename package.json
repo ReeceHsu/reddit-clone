@@ -17,6 +17,7 @@
     "@fontsource/open-sans": "^4.5.14",
     "dayjs": "^1.11.7",
     "firebase": "^9.19.1",
+    "firebase-functions": "^4.4.0",
     "framer-motion": "^10.11.6",
     "next": "13.3.0",
     "react": "18.2.0",
