@@ -42,11 +42,6 @@ const formTabs = [
 	},
 ];
 
-export type TabItem = {
-	title: string;
-	icon: typeof Icon.arguments;
-};
-
 const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityImageURL }) => {
 	const router = useRouter();
 	const [selectedTab, setSelectedTab] = React.useState(formTabs[0].title);
