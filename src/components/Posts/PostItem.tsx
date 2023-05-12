@@ -13,7 +13,7 @@ import {
 import { BsChat, BsDot } from 'react-icons/bs';
 import { MdOutlineDelete } from 'react-icons/md';
 import { useRouter } from 'next/router';
-import dayjs from 'dayjs';
+import dayjs from '../../utilits/Dayjs'
 import { FaReddit } from 'react-icons/fa';
 import Link from 'next/link';
 

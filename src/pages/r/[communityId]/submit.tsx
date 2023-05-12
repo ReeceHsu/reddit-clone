@@ -12,7 +12,7 @@ import useCommunityData from '../../../hooks/useCommunityData';
 const SubmitPostPage: React.FC = () => {
 	const [user] = useAuthState(auth);
 	const communityStateValue = useRecoilValue(communityState);
-	 const { loading } = useCommunityData();
+	const { loading } = useCommunityData();
 	return (
 		<>
 			<PageContent>
